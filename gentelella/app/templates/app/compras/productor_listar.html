@@ -1,0 +1,103 @@
+{% extends "app/base_site.html" %}
+
+{% block title %} Listado de Productores {% endblock title %}
+
+{% block stylesheets %}
+{{ block.super }}
+<link href="/static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="/static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+{% endblock stylesheets %}
+
+{% block content %}
+  <div class="right_col" role="main">
+    
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <div class="x_panel">
+          <div class="x_title">
+            <h2>Listado de Productores</h2>            
+            <div class="clearfix"></div>
+          </div>
+          <div class="x_content">
+           <!-- Presentación de mensajes  -->
+           <!-- Presentación de mensajes  -->
+           {% if messages %}
+           {% for message in messages %}  
+           <div {% if message.tags %} class="alert alert-{{ message.tags }} alert-dismissible"{% endif %} role="alert">
+           <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <strong>¡{{ message.tags|upper }}!</strong> {{ message }}
+           </div>
+           {% endfor %}
+           {% endif %}
+          <form class="form-horizontal form-label-left">                   
+            <div class="form-group">
+              <div class="col-md-12 col-sm-12 col-xs-12 col-md-offset-0">                        
+                <div>
+                  <a href="{% url 'crear_productor' %}" class="btn btn-success"><i class="fa fa-plus-square"></i> Nuevo Productor</a>
+                </div>
+              </div>
+            </div>    
+          </form>
+          <br>                                           
+                       
+                <table id="tblProductor" class="table table-striped jambo_table bulk_action">
+                  <thead>
+                    <tr class="headings">
+                      <th class="column-title text-center">Nro.</th>                                                             
+                      <th class="column-title text-center">Identificación </th>
+                      <th class="column-title text-center">Productor</th>                     
+                      <th class="column-title text-center">Dirección </th>
+                      <th class="column-title text-center">Teléfono</th> 
+                      <th class="column-title text-center">Correo</th>
+                      <th class="column-title text-center">Opciones</th>  
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for productor in form %}
+                    <tr class="even pointer">
+                      <td class="text-center">{{ forloop.counter }}</td>                                                              
+                      <td class="text-center">{{productor.identificacion}} </td>
+                      <td class="text-center">{{productor.nombres}} </td>
+                      <td class="text-center"> {{productor.direccion}} </td>
+                      <td class="text-center"> {{productor.telefono}} </td> 
+                      <td class="text-center">{{productor.correo}}</td>
+                      <td class="text-center ">
+                        <a href="{% url 'editar_productor' productor.id %}" class="btn btn-info btn-xs" title="Gestionar productor"><i class="fa fa-pencil"></i></a> 
+                        <a href=" {% url 'eliminar_productor' productor.id %} " class="btn btn-danger btn-xs btnEliminar" title="Eliminar Categorias"><i class="fa fa-trash"></i></a> 
+                      </td>
+                    </tr>
+                    {% endfor %}                   
+                  </tbody>
+                </table>
+                                    
+          </div>
+          </div>
+        </div>
+      </div>
+  
+     
+  </div>
+{% endblock content %}
+
+{% block javascripts %}
+  {{ block.super}}
+    <!-- Datatables -->
+  <script src="/static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script src="/static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>  
+  <script src="/static/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="/static/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+  <script>
+    $(function(){
+
+      $('#tblProductor').DataTable( {
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          }
+      });
+
+    })
+  </script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ {% endblock javascripts %}
+
+

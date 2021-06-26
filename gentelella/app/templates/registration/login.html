@@ -1,0 +1,80 @@
+{% extends "app/base_site.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %} Login {% endblock title %}
+
+{% block stylesheets %}
+  {{ block.super }}
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/css/responsive.css">
+{% endblock stylesheets %}
+
+{% block body_class %}login{% endblock body_class %}
+
+{% block body %}
+<body class=" login"
+  data-admin-utc-offset="-18000">
+
+<!-- Container -->
+<div id="container">   
+    <!-- Header -->
+    <div id="header">
+        <div id="branding" style="text-align: center;">   
+            <h1><a>Centro de Acopio Sabanilla</a></h1>
+        </div>        
+    </div>
+    <!-- END Header --><!-- Content -->
+    <div id="content" class="colM">
+        <div id="content-main">
+            <form method="post" id="login-form">
+              {% csrf_token %} 
+            <div class="form-row">
+                <label class="required" for="id_username">Nombre de usuario:</label>
+              {{ form.username|add_class:'form-control'|attr:'placeholder:Ingrese su nombre' }}
+            </div>
+            <div class="form-row">
+                <label class="required" for="id_password">Contraseña:</label> 
+              {{ form.password|add_class:'form-control'|attr:'placeholder:Ingrese su password' }}
+            </div>
+            <div class="submit-row">
+              <input type="submit" value="Iniciar sesión">
+          </div>
+            </form>
+        </div>
+        
+        <br class="clear">
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+</body>
+</html>
+
+ 
+     <!-- Sweet Alert -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script type="application/javascript">
+      {% if form.errors %}               
+        var errors = '';
+        {% for field in form %}
+            {% for error in field.errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            errors += '{{ error }}\n';
+        {% endfor %}
+        swal("Error", errors, "error");
+      {% endif %}
+      </script> 
+{% endblock body %}
+
+
+{% block javascripts %}
+  {{ block.super}}
+{% endblock javascripts %}
+
